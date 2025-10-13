@@ -1,6 +1,6 @@
-# AWS CloudTrail IAM Threat Detection System
+# How to use this AWS CloudTrail ML Project
 
-A production-ready machine learning system that analyzes AWS CloudTrail logs to detect malicious IAM activities and unauthorized access patterns using LSTM neural networks.
+A machine learning system that analyzes AWS CloudTrail logs to detect malicious IAM activities and unauthorized access patterns using LSTM neural networks.
 
 ## 🎯 Project Overview
 
