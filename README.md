@@ -108,39 +108,6 @@ Test Accuracy: 27.8%         ← Expected temporal drift (NORMAL)
 - **Model Size**: 38K parameters (production-optimized)
 - **Processing Speed**: ~1000 events/second
 
-## 🔧 Advanced Usage
-
-### Manual Data Processing:
-```python
-from cloudtrail_processor import CloudTrailProcessor
-
-processor = CloudTrailProcessor()
-df = processor.load_cloudtrail_data('your_file.json')
-features = processor.extract_basic_features(df)
-advanced_features = processor.engineer_advanced_features(features)
-```
-
-### Custom Threat Detection:
-```python
-from lstm_model import IAMThreatLSTM
-import tensorflow as tf
-import pickle
-
-# Load production model
-model = tf.keras.models.load_model('iam_threat_production_model.h5')
-label_encoder = pickle.load(open('production_label_encoder.pkl', 'rb'))
-
-# Create detector instance
-detector = IAMThreatLSTM()
-detector.model = model
-
-# Analyze a sequence
-result = detector.predict_threat(sequence, label_encoder, threshold=0.880)
-print(f"Threat Type: {result['threat_type']}")
-print(f"Confidence: {result['confidence']:.3f}")
-print(f"Risk Score: {result['risk_score']:.3f}")
-```
-
 ## 📁 Output Files
 
 After training, you'll have these production-ready files:
