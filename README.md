@@ -80,6 +80,8 @@ This will:
 - Optimize detection thresholds for minimal false positives
 - Save production-ready model and encoders
 
+But if you clone this repo, you already have the trained LSTM model `iam_threat_production_model.h5`, so technically not necessary to retrain.
+
 ### 4. Running the Complete Pipeline
 ```bash
 # Execute end-to-end analysis
