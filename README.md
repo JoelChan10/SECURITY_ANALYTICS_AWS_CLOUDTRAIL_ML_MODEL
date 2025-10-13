@@ -37,7 +37,7 @@ matplotlib
 seaborn
 ```
 
-### Data Requirements:
+### Data Requirements (IMPORTANT!!!):
 - You need to have the `flaws_cloudtrail_logs` folder in the project (not included because json files are too big for Github)
 - Unzip flaws_cloudtrail01.json.gz, flaws_cloudtrail05.json.gz, flaws_cloudtrail10.json.gz, flaws_cloudtrail14.json.gz, and flaws_cloudtrail19.json.gz
 - These 5 json files are being used as the dataset for now
@@ -61,7 +61,7 @@ sec_anal_project/
 │   ├── flaws_cloudtrail01.json  # 2018 data
 │   ├── flaws_cloudtrail05.json  # 2019 data
 │   └── flaws_cloudtrail10.json  # 2019 data
-│   └── flaws_cloudtrail14.json  # 2019 data
+│   └── flaws_cloudtrail14.json  # 2020 data
 │   └── flaws_cloudtrail19.json  # 2020 data
 ├── cloudtrail_processor.py
 ├── lstm_model.py
