@@ -38,7 +38,7 @@ seaborn
 ```
 
 ### Data Requirements:
-- You need to have the flaws_cloudtrail_logs folder in the project (not included because json files are too big for Github)
+- You need to have the `flaws_cloudtrail_logs` folder in the project (not included because json files are too big for Github)
 - Unzip flaws_cloudtrail01.json.gz, flaws_cloudtrail05.json.gz, flaws_cloudtrail10.json.gz, flaws_cloudtrail14.json.gz, and flaws_cloudtrail19.json.gz
 - These 5 json files are being used as the dataset for now
 
