@@ -41,7 +41,7 @@ There is also a missing file `lstm_sequences.npy` which should also be in the ro
 ```
 
 ### 2. Training the Model (OPTIONAL)
-Training the model is optional since the final product of the model (iam_threat_production_model.h5) has already been uploaded to Github
+Training the model is optional since the final product of the model (**iam_threat_production_model.h5**) has already been uploaded to Github
 ```bash
 python train_production_model.py
 ```
