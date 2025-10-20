@@ -1,4 +1,4 @@
-# AWS IAM Threat Detection System
+# AWS IAM Threat Detection System using LSTM Model
 
 A production-ready AI-powered threat detection system that monitors AWS CloudTrail events in real-time to detect malicious IAM activities using deep learning and context-aware analysis.
 
