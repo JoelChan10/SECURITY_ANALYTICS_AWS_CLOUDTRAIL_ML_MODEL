@@ -16,6 +16,9 @@ This system provides **real-time threat detection** for AWS environments by:
 AWS CloudTrail API → Real-time Event Processing → LSTM Model → Security Analysis → S3 Storage
 ```
 
+## File Structure
+
+
 ## 🚀 Quick Start Guide
 
 ### 1. Prerequisites (IMPORTANT!!!)
