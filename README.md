@@ -67,7 +67,7 @@ python threat_detector.py
 # Analyze specific time range
 python threat_detector.py --days 1
 OR
-python threat_detector.py --days 0.2
+python threat_detector.py --hours 12
 
 # Use custom configuration
 python threat_detector.py --config custom_config.json
