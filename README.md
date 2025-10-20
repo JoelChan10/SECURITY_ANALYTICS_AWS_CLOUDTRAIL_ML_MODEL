@@ -7,21 +7,18 @@ A production-ready AI-powered threat detection system that monitors AWS CloudTra
 This system provides **real-time threat detection** for AWS environments by:
 - **Direct CloudTrail API integration** for live event monitoring
 - **LSTM neural network** analysis for pattern recognition
-- **Context-aware intelligence** to reduce false positives
+- **Context-aware intelligence** to recognize false positives
 - **Automated S3 storage** for audit trails and compliance
-- **89%+ confidence** on real attack scenarios
 
 ### Threat Categories Detected:
-- ✅ **Privilege Escalation** - Unauthorized permission increases (89%+ confidence)
+- ✅ **Privilege Escalation** - Unauthorized permission increases
 - ✅ **Lateral Movement** - Role creation and policy manipulation
 - ⚠️ **Reconnaissance** - Data gathering activities (captured but below threshold)
-- 🔄 **Data Exfiltration** - Suspicious data access patterns (untested)
-- 🔄 **Suspicious Access** - Unusual authentication behaviors (untested)
 
 ## 🏗️ System Architecture
 
 ```
-AWS CloudTrail API → Real-time Event Processing → LSTM Analysis → Context Intelligence → S3 Storage
+AWS CloudTrail API → Real-time Event Processing → LSTM Model → Security Analysis → S3 Storage
 ```
 
 ### **"Hybrid Cloud-Local" Approach:**
@@ -43,6 +40,16 @@ boto3
 
 # Install dependencies
 pip install tensorflow boto3 scikit-learn pandas numpy
+
+# IMPORTANT!!!
+Make sure you have the `flaws_cloudtrail_logs` folder in the root directory because this is the main dataset which is too big to be upload to Github. It should contain the following extracted files:
+- flaws_cloudtrail01.json
+- flaws_cloudtrail05.json
+- flaws_cloudtrail10.json
+- flaws_cloudtrail14.json
+- flaws_cloudtrail19.json
+
+There is also a missing file `lstm_sequences.npy` which should also be in the root directory but is also too big to be upload to Github.
 ```
 
 ### 2. AWS Setup
@@ -64,6 +71,8 @@ python threat_detector.py
 
 # Analyze specific time range
 python threat_detector.py --days 1
+OR
+python threat_detector.py --days 0.2
 
 # Use custom configuration
 python threat_detector.py --config custom_config.json
@@ -78,7 +87,6 @@ aws iam create-user --user-name malicious-user
 aws iam create-access-key --user-name malicious-user
 aws iam attach-user-policy --user-name malicious-user --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
 ```
-**Result**: 17 malicious events detected, **89.5% confidence**, HIGH risk level
 
 ### **Lateral Movement Detection ✅**
 ```bash
@@ -86,7 +94,15 @@ aws iam attach-user-policy --user-name malicious-user --policy-arn arn:aws:iam::
 aws iam create-role --role-name lateral-role-1 --assume-role-policy-document file://trust-policy.json
 aws iam attach-role-policy --role-name lateral-role-1 --policy-arn arn:aws:iam::aws:policy/AmazonEC2FullAccess
 ```
-**Result**: Correctly classified as privilege escalation, **89%+ confidence**
+
+### **Data Exfiltration ✅**
+```bash
+# Commands tested:
+aws iam create-user --user-name data-exfil-user
+aws iam create-access-key --user-name data-exfil-user
+aws iam create-access-key --user-name data-exfil-user  # Second key
+aws iam attach-user-policy --user-name data-exfil-user --policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+```
 
 ### **Reconnaissance Testing ⚠️**
 ```bash
@@ -95,7 +111,6 @@ aws iam list-users --max-items 1000
 aws iam list-roles --max-items 1000
 aws iam list-policies --scope Local --max-items 1000
 ```
-**Result**: Events captured but confidence below 88% threshold (needs additional training data)
 
 ## 🧠 Context-Aware Intelligence
 
@@ -110,11 +125,6 @@ aws iam list-policies --scope Local --max-items 1000
 - ⚠️ External IP sources
 - ⚠️ No MFA authentication
 - ⚠️ Rapid API call sequences
-
-### **False Positive Reduction:**
-- **57% improvement** in false positive rates
-- **Context adjustment** of raw LSTM predictions
-- **Configurable threshold** (default: 0.88 for 1% FP rate)
 
 ## 📁 Core Files
 
