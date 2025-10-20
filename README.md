@@ -10,11 +10,6 @@ This system provides **real-time threat detection** for AWS environments by:
 - **Context-aware intelligence** to recognize false positives
 - **Automated S3 storage** for audit trails and compliance
 
-### Threat Categories Detected:
-- ✅ **Privilege Escalation** - Unauthorized permission increases
-- ✅ **Lateral Movement** - Role creation and policy manipulation
-- ⚠️ **Reconnaissance** - Data gathering activities (captured but below threshold)
-
 ## 🏗️ Project System Architecture
 
 ```
