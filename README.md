@@ -15,18 +15,11 @@ This system provides **real-time threat detection** for AWS environments by:
 - ✅ **Lateral Movement** - Role creation and policy manipulation
 - ⚠️ **Reconnaissance** - Data gathering activities (captured but below threshold)
 
-## 🏗️ System Architecture
+## 🏗️ Project System Architecture
 
 ```
 AWS CloudTrail API → Real-time Event Processing → LSTM Model → Security Analysis → S3 Storage
 ```
-
-### **"Hybrid Cloud-Local" Approach:**
-Instead of deploying TO AWS (SageMaker/Lambda), we **bring AWS data TO our system**:
-- **Local LSTM execution** with trained model (523KB)
-- **Real-time CloudTrail API** access for live events
-- **Context-aware analysis** with trust/risk signals
-- **S3 upload** for centralized audit trails
 
 ## 🚀 Quick Start Guide
 
