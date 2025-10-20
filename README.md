@@ -172,9 +172,3 @@ s3://lstm-model-output/
   }
 }
 ```
-
----
-
-**Built with AI/ML for Real-World Cybersecurity** 🛡️
-
-This system demonstrates practical application of deep learning to cybersecurity, achieving production-ready threat detection with 89%+ confidence on real attack scenarios while maintaining low false positive rates through context-aware intelligence.
