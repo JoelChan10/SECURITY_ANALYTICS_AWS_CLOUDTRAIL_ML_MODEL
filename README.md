@@ -23,7 +23,7 @@ AWS CloudTrail API → Real-time Event Processing → LSTM Model → Security An
 
 ## 🚀 Quick Start Guide
 
-### 1. Prerequisites
+### 1. Prerequisites (IMPORTANT!!!)
 ```bash
 # Required software
 Python 3.8+
@@ -34,7 +34,7 @@ boto3
 # Install dependencies
 pip install tensorflow boto3 scikit-learn pandas numpy
 
-# IMPORTANT!!!
+# Dataset
 Make sure you have the `flaws_cloudtrail_logs` folder in the root directory because this is the main dataset which is too big to be upload to Github. It should contain the following extracted files:
 - flaws_cloudtrail01.json
 - flaws_cloudtrail05.json
