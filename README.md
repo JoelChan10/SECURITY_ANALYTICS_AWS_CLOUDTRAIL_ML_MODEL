@@ -40,7 +40,13 @@ Make sure you have the `flaws_cloudtrail_logs` folder in the root directory beca
 There is also a missing file `lstm_sequences.npy` which should also be in the root directory but is also too big to be upload to Github.
 ```
 
-### 2. AWS Setup
+### 2. Training the Model (OPTIONAL)
+Training the model is optional since the final product of the model (iam_threat_production_model.h5) has already been uploaded to Github
+```bash
+python train_production_model.py
+```
+
+### 3. AWS Setup
 ```bash
 # Ensure AWS credentials are configured
 aws configure
@@ -52,7 +58,7 @@ aws cloudtrail lookup-events --lookup-attributes AttributeKey=EventName,Attribut
 aws s3 mb s3://your-threat-detection-bucket
 ```
 
-### 3. Running Threat Detection
+### 4. Running Threat Detection
 ```bash
 # Run real-time threat analysis (default: 7 days)
 python threat_detector.py
