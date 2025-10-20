@@ -178,32 +178,6 @@ s3://lstm-model-output/
 }
 ```
 
-## ⚙️ Configuration
-
-### **Default Configuration:**
-```json
-{
-  "time_range_days": 7,
-  "threat_threshold": 0.88,
-  "aws_region": "us-east-1",
-  "event_sources": ["iam.amazonaws.com", "sts.amazonaws.com", "ec2.amazonaws.com"],
-  "s3_bucket": "lstm-model-output",
-  "upload_to_s3": true,
-  "save_all_events": true
-}
-```
-
-### **Custom Configuration:**
-Create `custom_config.json` to override defaults:
-```json
-{
-  "time_range_days": 1,
-  "threat_threshold": 0.75,
-  "s3_bucket": "your-custom-bucket",
-  "upload_to_s3": false
-}
-```
-
 ---
 
 **Built with AI/ML for Real-World Cybersecurity** 🛡️
