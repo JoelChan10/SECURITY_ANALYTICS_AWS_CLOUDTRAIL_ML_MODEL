@@ -615,15 +615,27 @@ class RobustThreatDetector:
             # Apply trained threshold to adjusted confidence
             is_threat = adjusted_confidence > self.trained_threshold
 
-            # Risk level based on adjusted confidence
-            if adjusted_confidence > 0.9:
-                risk_level = "CRITICAL"
-            elif adjusted_confidence > 0.8:
-                risk_level = "HIGH"
-            elif adjusted_confidence > 0.7:
-                risk_level = "MEDIUM"
+            # Risk level based on both confidence and actual malicious events detected
+            malicious_count = malicious_event_breakdown['total_malicious']
+
+            if malicious_count == 0:
+                # No individual malicious events detected - cap risk level
+                if adjusted_confidence > 0.8:
+                    risk_level = "MEDIUM"  # Pattern-based detection only
+                elif adjusted_confidence > 0.7:
+                    risk_level = "LOW-MEDIUM"
+                else:
+                    risk_level = "LOW"
             else:
-                risk_level = "LOW"
+                # Individual malicious events detected - use full confidence scale
+                if adjusted_confidence > 0.9:
+                    risk_level = "CRITICAL"
+                elif adjusted_confidence > 0.8:
+                    risk_level = "HIGH"
+                elif adjusted_confidence > 0.7:
+                    risk_level = "MEDIUM"
+                else:
+                    risk_level = "LOW"
 
             # Enhanced risk factors with context awareness
             risk_factors = []
@@ -856,15 +868,27 @@ class RobustThreatDetector:
         threat_type = self.label_classes[predicted_class]
         is_threat = confidence > self.threshold
 
-        # Risk level
-        if confidence > 0.9:
-            risk_level = "CRITICAL"
-        elif confidence > 0.8:
-            risk_level = "HIGH"
-        elif confidence > 0.7:
-            risk_level = "MEDIUM"
+        # Risk level based on both confidence and actual malicious events detected
+        malicious_count = len([event for category in ['privilege_escalation', 'reconnaissance', 'lateral_movement', 'data_exfiltration', 'suspicious_access'] for event in malicious_event_breakdown.get(category, [])])
+
+        if malicious_count == 0:
+            # No individual malicious events detected - cap risk level
+            if confidence > 0.8:
+                risk_level = "MEDIUM"  # Pattern-based detection only
+            elif confidence > 0.7:
+                risk_level = "LOW-MEDIUM"
+            else:
+                risk_level = "LOW"
         else:
-            risk_level = "LOW"
+            # Individual malicious events detected - use full confidence scale
+            if confidence > 0.9:
+                risk_level = "CRITICAL"
+            elif confidence > 0.8:
+                risk_level = "HIGH"
+            elif confidence > 0.7:
+                risk_level = "MEDIUM"
+            else:
+                risk_level = "LOW"
 
         return {
             'threat_type': threat_type,
@@ -902,6 +926,16 @@ class RobustThreatDetector:
             'predicted_class': 0,
             'threshold_used': self.threshold,
             'risk_factors': [],
+            'malicious_events_breakdown': {
+                'privilege_escalation': [],
+                'reconnaissance': [],
+                'lateral_movement': [],
+                'data_exfiltration': [],
+                'suspicious_access': [],
+                'total_malicious': 0,
+                'total_events': 0,
+                'malicious_percentage': 0.0
+            },
             'sequence_stats': {},
             'events_analyzed': 0,
             'reason': reason
@@ -950,6 +984,9 @@ class RobustThreatDetector:
         s3_report_key = f"analysis-reports/threat_analysis_report_{timestamp}.json"
         self.upload_to_s3(report_file, s3_report_key)
 
+        # Initialize events_file to None
+        events_file = None
+
         # Save all events if configured
         if self.config['save_all_events'] and events:
             events_data = {
@@ -987,7 +1024,7 @@ class RobustThreatDetector:
 
         return report_file, events_file if self.config['save_all_events'] else None
 
-    def run_analysis(self, days_back=None):
+    def run_analysis(self, days_back=None, hours_back=None):
         """Run comprehensive threat analysis"""
         print("="*80)
         print("IAM THREAT DETECTION SYSTEM")
@@ -1009,7 +1046,10 @@ class RobustThreatDetector:
 
         # Terminal summary
         print(f"\nANALYSIS SUMMARY:")
-        print(f"Time Range: {self.config['time_range_days']} days")
+        if hours_back:
+            print(f"Time Range: {hours_back} hours")
+        else:
+            print(f"Time Range: {days_back} days")
         print(f"Total Events: {len(events)}")
 
         # Malicious event breakdown
@@ -1051,12 +1091,19 @@ class RobustThreatDetector:
 def main():
     parser = argparse.ArgumentParser(description='IAM Threat Detection')
     parser.add_argument('--days', type=int, default=7, help='Number of days to analyze (default: 7)')
+    parser.add_argument('--hours', type=int, help='Number of hours to analyze (alternative to --days)')
     parser.add_argument('--config', type=str, help='Configuration file path')
 
     args = parser.parse_args()
 
+    # Convert hours to days if hours is specified
+    if args.hours:
+        days_back = args.hours / 24.0
+    else:
+        days_back = args.days
+
     detector = RobustThreatDetector(config_file=args.config)
-    prediction, report_file = detector.run_analysis(days_back=args.days)
+    prediction, report_file = detector.run_analysis(days_back=days_back, hours_back=args.hours)
 
     print(f"\nAnalysis complete! Check {report_file} for detailed results.")
 
