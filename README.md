@@ -71,7 +71,7 @@ python threat_detector.py --days 0.2
 python threat_detector.py --config custom_config.json
 ```
 
-## 📊 Real Attack Testing Results
+## 📊 Attack Test Cases
 
 ### **Privilege Escalation Detection ✅**
 ```bash
