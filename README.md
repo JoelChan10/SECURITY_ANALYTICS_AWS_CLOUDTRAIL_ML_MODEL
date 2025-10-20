@@ -16,8 +16,6 @@ This system provides **real-time threat detection** for AWS environments by:
 AWS CloudTrail API → Real-time Event Processing → LSTM Model → Security Analysis → S3 Storage
 ```
 
-## File Structure
-
 
 ## 🚀 Quick Start Guide
 
@@ -77,7 +75,7 @@ python threat_detector.py --config custom_config.json
 
 ## 📊 Attack Test Cases
 
-### **Privilege Escalation Detection ✅**
+### **Privilege Escalation Detection**
 ```bash
 # Commands tested:
 aws iam create-user --user-name malicious-user
@@ -85,14 +83,14 @@ aws iam create-access-key --user-name malicious-user
 aws iam attach-user-policy --user-name malicious-user --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
 ```
 
-### **Lateral Movement Detection ✅**
+### **Lateral Movement Detection**
 ```bash
 # Commands tested:
 aws iam create-role --role-name lateral-role-1 --assume-role-policy-document file://trust-policy.json
 aws iam attach-role-policy --role-name lateral-role-1 --policy-arn arn:aws:iam::aws:policy/AmazonEC2FullAccess
 ```
 
-### **Data Exfiltration ✅**
+### **Data Exfiltration**
 ```bash
 # Commands tested:
 aws iam create-user --user-name data-exfil-user
@@ -101,7 +99,7 @@ aws iam create-access-key --user-name data-exfil-user  # Second key
 aws iam attach-user-policy --user-name data-exfil-user --policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
 ```
 
-### **Reconnaissance Testing ⚠️**
+### **Reconnaissance Testing**
 ```bash
 # Commands tested:
 aws iam list-users --max-items 1000
