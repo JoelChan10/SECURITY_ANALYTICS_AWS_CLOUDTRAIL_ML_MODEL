@@ -1,0 +1,117 @@
+{
+  "analysis_timestamp": "2025-10-19T14:00:26.731479",
+  "account_info": {
+    "account_id": "542515510202",
+    "user_arn": "arn:aws:iam::542515510202:user/ProjectAdmin",
+    "user_id": "AIDAX4UDRXO5L2LZN6YST"
+  },
+  "configuration": {
+    "time_range_days": 7,
+    "max_events_per_request": 50,
+    "batch_size": 1000,
+    "threat_threshold": 0.88,
+    "aws_region": "us-east-1",
+    "output_dir": "threat_analysis_output",
+    "event_sources": [
+      "iam.amazonaws.com",
+      "sts.amazonaws.com",
+      "ec2.amazonaws.com"
+    ],
+    "detailed_logging": true,
+    "save_all_events": true
+  },
+  "summary": {
+    "total_events": 669,
+    "events_by_source": {
+      "iam.amazonaws.com": 42,
+      "sts.amazonaws.com": 575,
+      "ec2.amazonaws.com": 52
+    },
+    "time_range": {
+      "days_analyzed": 7,
+      "start_time": "2025-10-12T14:00:26.731479",
+      "end_time": "2025-10-19T14:00:26.731479"
+    }
+  },
+  "threat_analysis": {
+    "threat_type": "Privilege_Escalation",
+    "confidence": 0.992,
+    "is_threat": true,
+    "risk_level": "CRITICAL",
+    "predicted_class": 1,
+    "threshold_used": 0.8800000000000003,
+    "risk_factors": [
+      "LSTM detected 7 suspicious events",
+      "High confidence LSTM prediction",
+      "Neural network identified non-normal pattern"
+    ],
+    "malicious_events_breakdown": {
+      "privilege_escalation": [
+        {
+          "EventName": "CreateRole",
+          "EventTime": "2025-10-19T00:19:04+08:00",
+          "EventId": "e4f90868-90a8-411e-a6a2-18b9df720086",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "AttachRolePolicy",
+          "EventTime": "2025-10-19T00:19:19+08:00",
+          "EventId": "1b8d6daa-ab71-476d-9149-a2683567ed7f",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "DeleteRole",
+          "EventTime": "2025-10-19T00:32:48+08:00",
+          "EventId": "c6e88c4b-f3a9-4f18-a19e-0ce153533130",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "CreateUser",
+          "EventTime": "2025-10-19T11:09:34+08:00",
+          "EventId": "0668c11b-bd40-468b-9069-61fbcbb5ca41",
+          "ErrorCode": "",
+          "Username": "admin"
+        },
+        {
+          "EventName": "CreateUser",
+          "EventTime": "2025-10-19T11:13:14+08:00",
+          "EventId": "a631d3f3-f2df-4708-b7f9-188128af23fb",
+          "ErrorCode": "",
+          "Username": "admin"
+        },
+        {
+          "EventName": "CreateUser",
+          "EventTime": "2025-10-19T11:13:28+08:00",
+          "EventId": "d33ce9b4-b9ec-48bc-bca5-d0584e4236d7",
+          "ErrorCode": "",
+          "Username": "admin"
+        },
+        {
+          "EventName": "CreateUser",
+          "EventTime": "2025-10-19T11:22:50+08:00",
+          "EventId": "499c14d5-0f2d-4990-8598-6d0a217f4500",
+          "ErrorCode": "",
+          "Username": "admin"
+        }
+      ],
+      "reconnaissance": [],
+      "lateral_movement": [],
+      "data_exfiltration": [],
+      "suspicious_access": [],
+      "total_malicious": 7,
+      "total_events": 669,
+      "malicious_percentage": 1.05
+    },
+    "model_type": "Trained LSTM Neural Network",
+    "prediction_method": "Deep Learning",
+    "sequence_stats": {
+      "lstm_sequence_shape": "(1, 20, 20)",
+      "events_processed": 669,
+      "model_confidence": 0.992
+    },
+    "events_analyzed": 669
+  }
+}

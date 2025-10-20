@@ -1,0 +1,96 @@
+{
+  "analysis_timestamp": "2025-10-19T02:04:40.316061",
+  "account_info": {
+    "account_id": "542515510202",
+    "user_arn": "arn:aws:iam::542515510202:user/ProjectAdmin",
+    "user_id": "AIDAX4UDRXO5L2LZN6YST"
+  },
+  "configuration": {
+    "time_range_days": 7,
+    "max_events_per_request": 50,
+    "batch_size": 1000,
+    "threat_threshold": 0.88,
+    "aws_region": "us-east-1",
+    "output_dir": "threat_analysis_output",
+    "event_sources": [
+      "iam.amazonaws.com",
+      "sts.amazonaws.com",
+      "ec2.amazonaws.com"
+    ],
+    "detailed_logging": true,
+    "save_all_events": true
+  },
+  "summary": {
+    "total_events": 666,
+    "events_by_source": {
+      "iam.amazonaws.com": 101,
+      "sts.amazonaws.com": 539,
+      "ec2.amazonaws.com": 26
+    },
+    "time_range": {
+      "days_analyzed": 7,
+      "start_time": "2025-10-12T02:04:40.316061",
+      "end_time": "2025-10-19T02:04:40.316061"
+    }
+  },
+  "threat_analysis": {
+    "threat_type": "Privilege_Escalation",
+    "confidence": 0.999,
+    "is_threat": true,
+    "risk_level": "CRITICAL",
+    "predicted_class": 1,
+    "threshold_used": 0.8800000000000003,
+    "risk_factors": [
+      "LSTM detected 4 suspicious events",
+      "High confidence LSTM prediction",
+      "Neural network identified non-normal pattern"
+    ],
+    "malicious_events_breakdown": {
+      "privilege_escalation": [
+        {
+          "EventName": "PutRolePolicy",
+          "EventTime": "2025-10-18T21:51:02+08:00",
+          "EventId": "3d71fa10-0ea9-4922-8f44-35902e27cb0b",
+          "ErrorCode": "",
+          "Username": "admin"
+        },
+        {
+          "EventName": "CreateRole",
+          "EventTime": "2025-10-19T00:19:04+08:00",
+          "EventId": "e4f90868-90a8-411e-a6a2-18b9df720086",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "AttachRolePolicy",
+          "EventTime": "2025-10-19T00:19:19+08:00",
+          "EventId": "1b8d6daa-ab71-476d-9149-a2683567ed7f",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "DeleteRole",
+          "EventTime": "2025-10-19T00:32:48+08:00",
+          "EventId": "c6e88c4b-f3a9-4f18-a19e-0ce153533130",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        }
+      ],
+      "reconnaissance": [],
+      "lateral_movement": [],
+      "data_exfiltration": [],
+      "suspicious_access": [],
+      "total_malicious": 4,
+      "total_events": 666,
+      "malicious_percentage": 0.6
+    },
+    "model_type": "Trained LSTM Neural Network",
+    "prediction_method": "Deep Learning",
+    "sequence_stats": {
+      "lstm_sequence_shape": "(1, 20, 20)",
+      "events_processed": 666,
+      "model_confidence": 0.999
+    },
+    "events_analyzed": 666
+  }
+}

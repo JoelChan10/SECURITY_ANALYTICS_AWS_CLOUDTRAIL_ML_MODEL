@@ -1,0 +1,25 @@
+{
+  "time_range_days": 30,
+  "max_events_per_request": 50,
+  "batch_size": 2000,
+  "threat_threshold": 0.85,
+  "aws_region": "us-east-1",
+  "output_dir": "threat_analysis_output",
+  "event_sources": [
+    "iam.amazonaws.com",
+    "sts.amazonaws.com",
+    "ec2.amazonaws.com",
+    "s3.amazonaws.com",
+    "kms.amazonaws.com"
+  ],
+  "detailed_logging": true,
+  "save_all_events": true,
+  "analysis_settings": {
+    "sequence_length": 50,
+    "feature_count": 20,
+    "enable_advanced_patterns": true,
+    "root_activity_threshold": 0.3,
+    "error_rate_threshold": 0.3,
+    "access_denied_threshold": 0.4
+  }
+}

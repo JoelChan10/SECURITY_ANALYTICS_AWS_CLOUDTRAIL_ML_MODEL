@@ -1,0 +1,189 @@
+{
+  "analysis_timestamp": "2025-10-19T16:34:52.209545",
+  "account_info": {
+    "account_id": "542515510202",
+    "user_arn": "arn:aws:iam::542515510202:user/ProjectAdmin",
+    "user_id": "AIDAX4UDRXO5L2LZN6YST"
+  },
+  "configuration": {
+    "time_range_days": 7,
+    "max_events_per_request": 50,
+    "batch_size": 1000,
+    "threat_threshold": 0.88,
+    "aws_region": "us-east-1",
+    "output_dir": "threat_analysis_output",
+    "event_sources": [
+      "iam.amazonaws.com",
+      "sts.amazonaws.com",
+      "ec2.amazonaws.com"
+    ],
+    "detailed_logging": true,
+    "save_all_events": true,
+    "s3_bucket": "lstm-model-output",
+    "upload_to_s3": true
+  },
+  "summary": {
+    "total_events": 597,
+    "events_by_source": {
+      "iam.amazonaws.com": 48,
+      "sts.amazonaws.com": 500,
+      "ec2.amazonaws.com": 49
+    },
+    "time_range": {
+      "days_analyzed": 7,
+      "start_time": "2025-10-12T16:34:52.209545",
+      "end_time": "2025-10-19T16:34:52.209545"
+    }
+  },
+  "threat_analysis": {
+    "threat_type": "Privilege_Escalation",
+    "confidence": 0.893,
+    "raw_confidence": 0.993,
+    "is_threat": true,
+    "risk_level": "HIGH",
+    "predicted_class": 1,
+    "threshold_used": 0.8800000000000003,
+    "risk_factors": [
+      "LSTM detected 14 suspicious events",
+      "High confidence LSTM prediction",
+      "Neural network identified non-normal pattern",
+      "Trust signals present: MFA authenticated, CloudShell/Console source",
+      "Risk signals detected: Very off-hours activity, External IP source, No MFA authentication"
+    ],
+    "context_analysis": {
+      "trust_signals": [
+        "MFA authenticated",
+        "CloudShell/Console source"
+      ],
+      "risk_signals": [
+        "Very off-hours activity",
+        "External IP source",
+        "No MFA authentication"
+      ],
+      "trust_score": 65.70000000000037,
+      "risk_score": 121.19999999999759,
+      "business_hours_activity": 337,
+      "off_hours_activity": 260,
+      "mfa_authenticated_events": 48,
+      "cloudshell_events": 88
+    },
+    "malicious_events_breakdown": {
+      "privilege_escalation": [
+        {
+          "EventName": "CreateUser",
+          "EventTime": "2025-10-19T14:45:48+08:00",
+          "EventId": "176e1ecc-0c6c-41e7-94bb-70a9d49f3dce",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "CreateAccessKey",
+          "EventTime": "2025-10-19T14:46:00+08:00",
+          "EventId": "9f2c77aa-5367-481f-970d-b2daf8a1d22b",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "CreateAccessKey",
+          "EventTime": "2025-10-19T14:46:10+08:00",
+          "EventId": "ed52d7db-f844-4478-8a9e-4f8c3a38e232",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "AttachUserPolicy",
+          "EventTime": "2025-10-19T14:46:17+08:00",
+          "EventId": "e854b6a2-10ef-4c48-934e-2c15f868ff8b",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "CreateRole",
+          "EventTime": "2025-10-19T15:26:00+08:00",
+          "EventId": "d286267d-56c0-4dad-8781-6987f41619bc",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "CreateRole",
+          "EventTime": "2025-10-19T15:26:12+08:00",
+          "EventId": "aa73ee1d-3b3a-4118-85a5-d799a938b8b0",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "AttachRolePolicy",
+          "EventTime": "2025-10-19T15:26:16+08:00",
+          "EventId": "a8c52550-41bc-4832-ac4b-fb54594931c4",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "AttachRolePolicy",
+          "EventTime": "2025-10-19T15:26:36+08:00",
+          "EventId": "ba7215ca-a299-43eb-be03-c9a8ec120df2",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "AttachRolePolicy",
+          "EventTime": "2025-10-19T15:27:34+08:00",
+          "EventId": "e042c0f8-a65b-4346-bd82-9ea7658a4b1a",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "AttachRolePolicy",
+          "EventTime": "2025-10-19T15:27:40+08:00",
+          "EventId": "345eeab2-d6a8-48af-a0f8-1597bf1781cb",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "CreateRole",
+          "EventTime": "2025-10-19T15:41:27+08:00",
+          "EventId": "0dc5e83d-9088-4bee-806a-7da5435182ce",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "CreateRole",
+          "EventTime": "2025-10-19T15:41:37+08:00",
+          "EventId": "074edc35-78be-4793-8d3c-8cd1a1b350f9",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "AttachRolePolicy",
+          "EventTime": "2025-10-19T15:41:43+08:00",
+          "EventId": "e9b78b2d-442d-46b8-96f9-0182d440c4b1",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "AttachRolePolicy",
+          "EventTime": "2025-10-19T15:41:47+08:00",
+          "EventId": "00841280-61a5-4291-aed5-a70592f66eab",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        }
+      ],
+      "reconnaissance": [],
+      "lateral_movement": [],
+      "data_exfiltration": [],
+      "suspicious_access": [],
+      "total_malicious": 14,
+      "total_events": 597,
+      "malicious_percentage": 2.35
+    },
+    "model_type": "Context-Aware LSTM Neural Network",
+    "prediction_method": "Deep Learning + Context Analysis",
+    "sequence_stats": {
+      "lstm_sequence_shape": "(1, 20, 20)",
+      "events_processed": 597,
+      "raw_model_confidence": 0.993,
+      "context_adjusted_confidence": 0.893
+    },
+    "events_analyzed": 597
+  }
+}

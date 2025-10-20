@@ -1,0 +1,110 @@
+{
+  "analysis_timestamp": "2025-10-19T14:38:26.827543",
+  "account_info": {
+    "account_id": "542515510202",
+    "user_arn": "arn:aws:iam::542515510202:user/ProjectAdmin",
+    "user_id": "AIDAX4UDRXO5L2LZN6YST"
+  },
+  "configuration": {
+    "time_range_days": 7,
+    "max_events_per_request": 50,
+    "batch_size": 1000,
+    "threat_threshold": 0.88,
+    "aws_region": "us-east-1",
+    "output_dir": "threat_analysis_output",
+    "event_sources": [
+      "iam.amazonaws.com",
+      "sts.amazonaws.com",
+      "ec2.amazonaws.com"
+    ],
+    "detailed_logging": true,
+    "save_all_events": true
+  },
+  "summary": {
+    "total_events": 647,
+    "events_by_source": {
+      "iam.amazonaws.com": 47,
+      "sts.amazonaws.com": 551,
+      "ec2.amazonaws.com": 49
+    },
+    "time_range": {
+      "days_analyzed": 7,
+      "start_time": "2025-10-12T14:38:26.827543",
+      "end_time": "2025-10-19T14:38:26.827543"
+    }
+  },
+  "threat_analysis": {
+    "threat_type": "Privilege_Escalation",
+    "confidence": 0.9,
+    "raw_confidence": 1.0,
+    "is_threat": true,
+    "risk_level": "HIGH",
+    "predicted_class": 1,
+    "threshold_used": 0.8800000000000003,
+    "risk_factors": [
+      "LSTM detected 3 suspicious events",
+      "High confidence LSTM prediction",
+      "Neural network identified non-normal pattern",
+      "Trust signals present: MFA authenticated, CloudShell/Console source",
+      "Risk signals detected: External IP source, No MFA authentication, Very off-hours activity"
+    ],
+    "context_analysis": {
+      "trust_signals": [
+        "MFA authenticated",
+        "CloudShell/Console source"
+      ],
+      "risk_signals": [
+        "External IP source",
+        "No MFA authentication",
+        "Very off-hours activity"
+      ],
+      "trust_score": 71.4999999999999,
+      "risk_score": 158.29999999999683,
+      "business_hours_activity": 226,
+      "off_hours_activity": 421,
+      "mfa_authenticated_events": 91,
+      "cloudshell_events": 108
+    },
+    "malicious_events_breakdown": {
+      "privilege_escalation": [
+        {
+          "EventName": "CreateRole",
+          "EventTime": "2025-10-19T00:19:04+08:00",
+          "EventId": "e4f90868-90a8-411e-a6a2-18b9df720086",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "AttachRolePolicy",
+          "EventTime": "2025-10-19T00:19:19+08:00",
+          "EventId": "1b8d6daa-ab71-476d-9149-a2683567ed7f",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        },
+        {
+          "EventName": "DeleteRole",
+          "EventTime": "2025-10-19T00:32:48+08:00",
+          "EventId": "c6e88c4b-f3a9-4f18-a19e-0ce153533130",
+          "ErrorCode": "",
+          "Username": "ProjectAdmin"
+        }
+      ],
+      "reconnaissance": [],
+      "lateral_movement": [],
+      "data_exfiltration": [],
+      "suspicious_access": [],
+      "total_malicious": 3,
+      "total_events": 647,
+      "malicious_percentage": 0.46
+    },
+    "model_type": "Context-Aware LSTM Neural Network",
+    "prediction_method": "Deep Learning + Context Analysis",
+    "sequence_stats": {
+      "lstm_sequence_shape": "(1, 20, 20)",
+      "events_processed": 647,
+      "raw_model_confidence": 1.0,
+      "context_adjusted_confidence": 0.9
+    },
+    "events_analyzed": 647
+  }
+}
