@@ -180,40 +180,54 @@ s3://lstm-model-output/
 }
 ```
 
-### **Anomaly Guard Dashboard**
-Installation
-1. Clone the Repository
+# Anomaly Guard Dashboard
+
+The **Anomaly Guard Dashboard** is a Streamlit-based web application that visualizes AWS anomaly detection results in real time.  
+It automatically retrieves and displays the latest JSON files stored in your AWS S3 bucket, allowing you to monitor anomaly trends, event counts, and timelines.
+
+---
+
+## 1. Installation
+
+### Clone the Repository
+```bash
 git clone https://github.com/SECURITY_ANALYTICS_AWS_CLOUDTRAIL_ML_MODEL/dashboard.git
 cd dashboard
+```
 
-2. Install Dependencies
-
-Ensure you have Python 3.8 or higher installed, then run:
-
+### Install Dependencies
+Make sure you have **Python 3.8 or higher** installed, then run:
+```bash
 pip install -r requirements.txt
+```
 
-AWS Configuration
+---
 
-If you do not have the AWS CLI installed, follow the guide below:
-https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+## 2. AWS Configuration
 
-Then configure your AWS credentials:
+If you do not have the AWS CLI installed, follow the official guide below:  
+[https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
+Once installed, configure your AWS credentials:
+```bash
 aws configure
+```
 
-
-Enter your credentials when prompted:
-
+When prompted, enter:
+```
 AWS Access Key ID [None]: <your-access-key>
 AWS Secret Access Key [None]: <your-secret-access-key>
 Default region name [None]: us-east-1
 Default output format [None]: json
+```
 
+> Ensure that the IAM user or role has permission to read from the S3 bucket specified in the configuration.
 
-Ensure your IAM user or role has permission to read from your target S3 bucket.
+---
 
-Running the Dashboard
+## 3. Running the Dashboard
 
-To start the Streamlit dashboard, run:
-
+Start the Streamlit application:
+```bash
 streamlit run dashboard.py
+```
