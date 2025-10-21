@@ -7,7 +7,7 @@ Scalable, configurable, and comprehensive logging
 import boto3
 import json
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import time
 import argparse
 import os
@@ -228,10 +228,10 @@ class RobustThreatDetector:
     def fetch_all_events(self, days_back=None):
         """Fetch all events across specified time range"""
         days_back = days_back or self.config['time_range_days']
-        end_time = datetime.now()
+        end_time = datetime.now(timezone.utc)
         start_time = end_time - timedelta(days=days_back)
 
-        print(f"Fetching events from {start_time.strftime('%Y-%m-%d')} to {end_time.strftime('%Y-%m-%d')} ({days_back} days)")
+        print(f"Fetching events from {start_time.strftime('%Y-%m-%d %H:%M:%S UTC')} to {end_time.strftime('%Y-%m-%d %H:%M:%S UTC')} ({days_back} days)")
 
         all_events = []
         total_events_by_source = {}
