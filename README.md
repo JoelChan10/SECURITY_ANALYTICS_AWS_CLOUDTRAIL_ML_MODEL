@@ -179,3 +179,41 @@ s3://lstm-model-output/
   }
 }
 ```
+
+### **Anomaly Guard Dashboard**
+Installation
+1. Clone the Repository
+git clone https://github.com/SECURITY_ANALYTICS_AWS_CLOUDTRAIL_ML_MODEL/dashboard.git
+cd dashboard
+
+2. Install Dependencies
+
+Ensure you have Python 3.8 or higher installed, then run:
+
+pip install -r requirements.txt
+
+AWS Configuration
+
+If you do not have the AWS CLI installed, follow the guide below:
+https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+Then configure your AWS credentials:
+
+aws configure
+
+
+Enter your credentials when prompted:
+
+AWS Access Key ID [None]: <your-access-key>
+AWS Secret Access Key [None]: <your-secret-access-key>
+Default region name [None]: us-east-1
+Default output format [None]: json
+
+
+Ensure your IAM user or role has permission to read from your target S3 bucket.
+
+Running the Dashboard
+
+To start the Streamlit dashboard, run:
+
+streamlit run dashboard.py
