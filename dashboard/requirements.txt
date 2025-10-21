@@ -1,0 +1,6 @@
+streamlit
+boto3
+pandas
+matplotlib
+python-dateutil
+streamlit-autorefresh
