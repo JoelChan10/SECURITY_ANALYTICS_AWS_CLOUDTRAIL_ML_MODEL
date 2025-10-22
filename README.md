@@ -8,14 +8,16 @@ This system provides **real-time threat detection** for AWS environments by:
 - **Direct CloudTrail API integration** for live event monitoring
 - **LSTM neural network** analysis for pattern recognition
 - **Context-aware intelligence** to recognize false positives
+- **Dockerized TensorFlow model** deployment to AWS Lambda via ECR
 - **Automated S3 storage** for audit trails and compliance
 
 ## 🏗️ Project System Architecture
 
 ```
-AWS CloudTrail API → Real-time Event Processing → LSTM Model → Security Analysis → S3 Storage
+AWS CloudTrail → EventBridge → Lambda (from ECR) → DynamoDB → CloudWatch
 ```
 
+The **TensorFlow LSTM model** is packaged in a **Docker container** and pushed to **Amazon ECR**, allowing Lambda to perform real-time inference when triggered by IAM events from CloudTrail.
 
 ## 🚀 Quick Start Guide
 
@@ -25,6 +27,7 @@ AWS CloudTrail API → Real-time Event Processing → LSTM Model → Security An
 Python 3.8+
 AWS CLI configured with appropriate permissions
 TensorFlow 2.x
+Docker Desktop or CLI
 boto3
 
 # Install dependencies
@@ -47,7 +50,34 @@ Training the model is optional since the final product of the model (**iam_threa
 python train_production_model.py
 ```
 
-### 3. AWS Setup
+### 3. Docker Setup and Deployment
+
+#### 3.1 Build and Test Docker Image Locally
+```bash
+docker build -t tf-infer-image .
+```
+
+#### 3.2 Authenticate Docker to Amazon ECR
+```bash
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <account-id>.dkr.ecr.us-east-1.amazonaws.com
+```
+
+#### 3.3 Tag and Push Image to ECR
+```bash
+docker tag tf-infer-image:latest <account-id>.dkr.ecr.us-east-1.amazonaws.com/tf-infer-image:latest
+docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/tf-infer-image:latest
+```
+
+#### 3.4 Create or Update Lambda Function from ECR Image
+```bash
+aws lambda create-function   --function-name tf-infer-lambda   --package-type Image   --code ImageUri=<account-id>.dkr.ecr.us-east-1.amazonaws.com/tf-infer-image:latest   --role arn:aws:iam::<account-id>:role/LambdaExecutionRole
+```
+> **Note:** You can update later using:
+```bash
+aws lambda update-function-code   --function-name tf-infer-lambda   --image-uri <account-id>.dkr.ecr.us-east-1.amazonaws.com/tf-infer-image:latest
+```
+
+### 4. AWS Setup
 ```bash
 # Ensure AWS credentials are configured
 aws configure
@@ -59,7 +89,7 @@ aws cloudtrail lookup-events --lookup-attributes AttributeKey=EventName,Attribut
 aws s3 mb s3://your-threat-detection-bucket
 ```
 
-### 4. Running Threat Detection
+### 5. Running Threat Detection
 ```bash
 # Run real-time threat analysis (default: 7 days)
 python threat_detector.py
@@ -77,7 +107,6 @@ python threat_detector.py --config custom_config.json
 
 ### **Privilege Escalation Detection**
 ```bash
-# Commands tested:
 aws iam create-user --user-name malicious-user
 aws iam create-access-key --user-name malicious-user
 aws iam attach-user-policy --user-name malicious-user --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
@@ -85,23 +114,19 @@ aws iam attach-user-policy --user-name malicious-user --policy-arn arn:aws:iam::
 
 ### **Lateral Movement Detection**
 ```bash
-# Commands tested:
 aws iam create-role --role-name lateral-role-1 --assume-role-policy-document file://trust-policy.json
 aws iam attach-role-policy --role-name lateral-role-1 --policy-arn arn:aws:iam::aws:policy/AmazonEC2FullAccess
 ```
 
 ### **Data Exfiltration**
 ```bash
-# Commands tested:
 aws iam create-user --user-name data-exfil-user
 aws iam create-access-key --user-name data-exfil-user
-aws iam create-access-key --user-name data-exfil-user  # Second key
 aws iam attach-user-policy --user-name data-exfil-user --policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
 ```
 
 ### **Reconnaissance Testing**
 ```bash
-# Commands tested:
 aws iam list-users --max-items 1000
 aws iam list-roles --max-items 1000
 aws iam list-policies --scope Local --max-items 1000
@@ -182,38 +207,21 @@ s3://lstm-model-output/
 
 # Anomaly Guard Dashboard
 
-The **Anomaly Guard Dashboard** is a Streamlit-based web application that visualizes AWS anomaly detection results in real time.  
+The **Anomaly Guard Dashboard** is a Streamlit-based web application that visualizes AWS anomaly detection results in real time.
 It automatically retrieves and displays the latest JSON files stored in your AWS S3 bucket, allowing you to monitor anomaly trends, event counts, and timelines.
 
----
-
 ## 1. Installation
-
-### Clone the Repository
 ```bash
 git clone https://github.com/SECURITY_ANALYTICS_AWS_CLOUDTRAIL_ML_MODEL/dashboard.git
 cd dashboard
-```
-
-### Install Dependencies
-Make sure you have **Python 3.8 or higher** installed, then run:
-```bash
 pip install -r requirements.txt
 ```
 
----
-
 ## 2. AWS Configuration
-
-If you do not have the AWS CLI installed, follow the official guide below:  
-[https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-
-Once installed, configure your AWS credentials:
 ```bash
 aws configure
 ```
-
-When prompted, enter:
+When prompted:
 ```
 AWS Access Key ID [None]: <your-access-key>
 AWS Secret Access Key [None]: <your-secret-access-key>
@@ -221,13 +229,15 @@ Default region name [None]: us-east-1
 Default output format [None]: json
 ```
 
-> Ensure that the IAM user or role has permission to read from the S3 bucket specified in the configuration.
-
----
+Ensure the IAM user or role has permission to read from the S3 bucket specified in the configuration.
 
 ## 3. Running the Dashboard
-
-Start the Streamlit application:
 ```bash
 streamlit run dashboard.py
 ```
+
+✅ **Docker Integration Summary**
+- Docker is used to **containerize the TensorFlow LSTM model**
+- Image is stored in **Amazon ECR**
+- AWS Lambda executes the **containerized inference function**
+- Ensures consistent runtime and library versions between local and AWS
